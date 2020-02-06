@@ -66,3 +66,9 @@ export const GET_QUIZZES = gql`
     journey: journey(userId: $userId, categoryId: $categoryId, status: $status)
   }
 `
+
+export const GET_QUIZ_QUESTIONS = gql`
+  query GetQuizQuestions($userId: ID, $quizId: ID) {
+    questions: quizQuestions(userId: $userId, quizId: $quizId)
+  }
+`

@@ -7,6 +7,7 @@ import {
   GET_VIDEOS,
   GET_QUIZ_CATEGORIES,
   GET_QUIZZES,
+  GET_QUIZ_QUESTIONS,
 } from '../resources/queries'
 
 export function useGetHomePage(userId) {
@@ -45,4 +46,12 @@ export function useGetQuizzes(categoryId, userId, status) {
     variables: { categoryId, userId, status },
   })
   return { loading, error, data, refetch }
+}
+
+export function useGetQuizQuestions(userId, quizId) {
+  const { loading, error, data } = useQuery(GET_QUIZ_QUESTIONS, {
+    variables: { userId, quizId },
+  })
+
+  return { loading, error, data }
 }

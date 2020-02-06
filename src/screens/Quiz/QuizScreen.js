@@ -63,20 +63,23 @@ function Journey(props) {
   if (error) return <Text>error...</Text>
 
   const { journey } = data
-  console.log(JSON.stringify(journey))
 
   return (
     <FlatList
       style={{ flex: 1 }}
       data={journey}
       renderItem={({ item, index }) => (
-        <ProgressItem
-          title={`Level ${index + 1}`}
-          correctAnswers={item.correctAnswers}
-          percent={item.percentCompleted}
-          total={item.totalQuestions}
-          level={index + 1}
-        />
+        <TouchableOpacity
+          onPress={() => navigate('Question', { quizId: item.id })}
+        >
+          <ProgressItem
+            title={`Level ${index + 1}`}
+            correctAnswers={item.correctAnswers}
+            percent={item.percentCompleted}
+            total={item.totalQuestions}
+            level={index + 1}
+          />
+        </TouchableOpacity>
       )}
       keyExtractor={item => item.id}
     />
