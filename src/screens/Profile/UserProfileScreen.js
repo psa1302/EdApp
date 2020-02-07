@@ -3,6 +3,8 @@ import Loader from '../../components/Loader'
 import { Icon, Text, Avatar, ListItem } from 'react-native-elements'
 import TouchableScale from 'react-native-touchable-scale'
 import { firebase } from '@react-native-firebase/auth'
+import { useTheme } from '@react-navigation/native'
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import {
   Alert,
   TouchableOpacity,
@@ -56,6 +58,8 @@ const legal = [
 ]
 
 function UserProfileScreen(props) {
+  const { colors } = useTheme()
+  const scheme = useColorScheme()
   const [user, setUser] = useState(null)
   useEffect(() => {
     const { currentUser } = firebase.auth()
@@ -82,7 +86,9 @@ function UserProfileScreen(props) {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{ ...styles.container, backgroundColor: colors.background }}
+    >
       <ScrollView>
         <View style={styles.details}>
           <Avatar
@@ -92,8 +98,10 @@ function UserProfileScreen(props) {
               uri: photoURL,
             }}
           />
-          <Text style={styles.name}>{displayName}</Text>
-          <Text style={styles.contact}>{email}</Text>
+          <Text style={{ ...styles.name, color: colors.text }}>
+            {displayName}
+          </Text>
+          <Text style={{ ...styles.contact, color: colors.text }}>{email}</Text>
           {/* <Text style={styles.contact}>9988098592</Text> */}
           <Button
             color="#118785"
@@ -103,23 +111,30 @@ function UserProfileScreen(props) {
         </View>
         <View style={styles.legal}>
           <Text
-            style={{ fontSize: 24, fontWeight: 'bold', marginHorizontal: 16 }}
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              marginHorizontal: 16,
+              color: colors.text,
+            }}
           >
             फीडबैक
           </Text>
           {list.map((l, i) => (
             <TouchableOpacity activeOpacity={0.6}>
               <ListItem
+                containerStyle={{ backgroundColor: colors.card }}
                 key={i}
                 leftIcon={
                   <Icon
                     type="simple-line-icon"
                     name={l.icon}
-                    color="#118785"
+                    color={scheme === 'dark' ? '#FCBC6E' : '#118785'}
                     size={16}
                   />
                 }
                 title={l.name}
+                titleStyle={{ color: colors.text }}
                 bottomDivider
                 chevron
               />
@@ -128,7 +143,12 @@ function UserProfileScreen(props) {
         </View>
         <View style={styles.legal}>
           <Text
-            style={{ fontSize: 24, fontWeight: 'bold', marginHorizontal: 16 }}
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              marginHorizontal: 16,
+              color: colors.text,
+            }}
           >
             कानूनी शर्तें
           </Text>
@@ -138,14 +158,15 @@ function UserProfileScreen(props) {
               onPress={() => props.navigation.navigate(l.navigateTo)}
             >
               <ListItem
+                containerStyle={{ backgroundColor: colors.card }}
+                titleStyle={{ color: colors.text }}
                 key={i}
                 leftIcon={
                   <Icon
                     size={16}
                     type="simple-line-icon"
                     name={l.icon}
-                    color="red"
-                    color="#118785"
+                    color={scheme === 'dark' ? '#FCBC6E' : '#118785'}
                   />
                 }
                 title={l.name}
@@ -168,7 +189,6 @@ export default UserProfileScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   listIcon: {
     borderRadius: 8,

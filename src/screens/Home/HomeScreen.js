@@ -15,6 +15,7 @@ import HomeCarousel from '../../components/HomeCarousel'
 import Loader from '../../components/Loader'
 import { useGetHomePage } from '../../hooks/dataSource'
 import { useTheme } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 const SAMPLE_APPS = [
@@ -96,6 +97,7 @@ function Item(props) {
 
 function HomeScreen(props) {
   const { colors } = useTheme()
+  const route = useRoute()
   const { loading, error, data, refetch } = useGetHomePage(
     '5e208336bfef3597db86047f'
   )
@@ -109,6 +111,17 @@ function HomeScreen(props) {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView>
+        <View style={{ padding: 24 }}>
+          <Text
+            style={{
+              color: colors.text,
+              fontSize: 36,
+              fontWeight: 'bold',
+            }}
+          >
+            {route.name}
+          </Text>
+        </View>
         <View style={{ marginTop: 16 }}>
           <HomeCarousel items={banners} />
         </View>

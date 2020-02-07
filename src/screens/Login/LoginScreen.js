@@ -3,6 +3,10 @@ import { useGoogleLogin, useFacebookLogin } from '../../hooks/common'
 import { Icon, Text, SocialIcon, Divider } from 'react-native-elements'
 import TouchableScale from 'react-native-touchable-scale'
 import { BlurView, VibrancyView } from '@react-native-community/blur'
+import { useTheme } from '@react-navigation/native'
+import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
+import { useNavigation } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import {
   SafeAreaView,
   ScrollView,
@@ -17,29 +21,46 @@ import {
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
 function LoginScreen(props) {
+  const { colors } = useTheme()
+  const scheme = useColorScheme()
   const [facebookLogin, { loading: facebookLoginLoading }] = useFacebookLogin()
   const [googleLogin, { loading: googleLoginLoading }] = useGoogleLogin()
 
   const blurRef = useRef(null)
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{ ...styles.container, backgroundColor: colors.background }}
+    >
       <View style={styles.logoContainer} ref={blurRef}>
         <Image
           source={require('../../../assets/logo.png')}
           style={styles.logo}
         />
-        <Text style={styles.appName}>टॉप पेरेंट</Text>
-        <Text style={styles.appSubtitle}>सीखने सिखाने के नए तरीके</Text>
+        <Text
+          style={{
+            ...styles.appName,
+            color: scheme === 'dark' ? '#FCBC6E' : '#118785',
+          }}
+        >
+          टॉप पेरेंट
+        </Text>
+        <Text
+          style={{
+            ...styles.appSubtitle,
+            color: scheme === 'dark' ? '#FCBC6E' : '#118785',
+          }}
+        >
+          सीखने सिखाने के नए तरीके
+        </Text>
       </View>
       <View style={styles.socialContainer}>
         <SocialIcon
           title="Sign In With Phone"
           button
           type="phone"
-          style={{ backgroundColor: '#00444a' }}
+          style={{ backgroundColor: scheme === 'dark' ? '#98D2DA' : '#00444a' }}
           onPress={() => props.navigation.navigate('Phone')}
-          // onPress={() => facebookLogin()}
         />
         <SocialIcon
           title="Sign In With Facebook"
@@ -79,7 +100,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   logo: {
     width: screenWidth * 0.5,
