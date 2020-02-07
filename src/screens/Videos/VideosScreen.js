@@ -15,6 +15,9 @@ import TouchableScale from 'react-native-touchable-scale'
 import Loader from '../../components/Loader'
 import { useGetVideos } from '../../hooks/dataSource'
 import YouTube from 'react-native-youtube'
+import { useTheme } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
@@ -60,6 +63,7 @@ const SAMPLE_APPS = [
 const APPS_LIMIT = 10
 
 function Item({ title, subtitle, thumbnail, navigate, id }) {
+  const { colors } = useTheme()
   return (
     <TouchableScale
       onPress={() => navigate('Videos', { id })}
@@ -86,10 +90,10 @@ function Item({ title, subtitle, thumbnail, navigate, id }) {
         />
       </View>
       <View style={{ flex: 1 }}>
-        <Text numberOfLines={1} style={{ fontSize: 16 }}>
+        <Text numberOfLines={1} style={{ fontSize: 16, color: colors.text }}>
           {title}
         </Text>
-        <Text numberOfLines={1} style={{ color: '#696969' }}>
+        <Text numberOfLines={1} style={{ color: colors.text }}>
           CSF-Top Parent
         </Text>
       </View>
@@ -98,6 +102,9 @@ function Item({ title, subtitle, thumbnail, navigate, id }) {
 }
 
 function VideosScreen(props) {
+  const route = useRoute()
+  const navigation = useNavigation()
+  const { colors } = useTheme()
   const { loading, error, data, fetchMore, refetch } = useGetVideos({
     limit: APPS_LIMIT,
     offset: 0,
@@ -138,7 +145,7 @@ function VideosScreen(props) {
   if (loading) return <Loader />
   if (error) return <Text>error...</Text>
 
-  const videoId = props.navigation.getParam('id')
+  const videoId = route.params?.id
 
   let { videos } = data
   const currentVideoId = videoId || videos[0].url.split('v=')[1]
@@ -149,7 +156,9 @@ function VideosScreen(props) {
   videos = videos.filter(video => video.videoId !== currentVideoId)
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{ ...styles.container, backgroundColor: colors.background }}
+    >
       <YouTube
         videoId={currentVideoId} // The YouTube video ID
         // play // control playback of video with true/false
@@ -171,7 +180,13 @@ function VideosScreen(props) {
             justifyContent: 'space-between',
           }}
         >
-          <Text style={{ fontSize: 20, width: screenWidth / 1.5 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              width: screenWidth / 1.5,
+              color: colors.text,
+            }}
+          >
             {currentVideo.title}
           </Text>
           <Icon
@@ -183,7 +198,7 @@ function VideosScreen(props) {
           />
         </View>
       </View>
-      <Divider style={styles.divider} />
+      <Divider style={{ ...styles.divider, backgroundColor: colors.border }} />
       <FlatList
         style={{
           padding: 16,
@@ -195,7 +210,7 @@ function VideosScreen(props) {
               title={item.name}
               subtitle={item.name}
               thumbnail={item.thumbnail}
-              navigate={props.navigation.navigate}
+              navigate={navigation.navigate}
               id={item.id}
             />
           </>
@@ -211,10 +226,8 @@ export default VideosScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   divider: {
-    backgroundColor: '#eaeaea',
     marginTop: 8,
     marginBottom: 8,
   },

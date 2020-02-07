@@ -14,6 +14,7 @@ import {
 import HomeCarousel from '../../components/HomeCarousel'
 import Loader from '../../components/Loader'
 import { useGetHomePage } from '../../hooks/dataSource'
+import { useTheme } from '@react-navigation/native'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 const SAMPLE_APPS = [
@@ -56,6 +57,7 @@ const SAMPLE_APPS = [
 ]
 
 function Item(props) {
+  const { colors } = useTheme()
   const { title, subtitle, thumbnail, id, navigate, isLast } = props
   return (
     <TouchableScale
@@ -76,6 +78,8 @@ function Item(props) {
             width: 60,
             height: 60,
             borderRadius: 16,
+            borderWidth: 1,
+            borderColor: colors.border,
           }}
           source={{
             uri: thumbnail,
@@ -83,14 +87,15 @@ function Item(props) {
         />
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 16 }}>{title}</Text>
-        <Text style={{ color: '#a3a3a3' }}>{subtitle}</Text>
+        <Text style={{ fontSize: 16, color: colors.text }}>{title}</Text>
+        <Text style={{ color: colors.text }}>{subtitle}</Text>
       </View>
     </TouchableScale>
   )
 }
 
 function HomeScreen(props) {
+  const { colors } = useTheme()
   const { loading, error, data, refetch } = useGetHomePage(
     '5e208336bfef3597db86047f'
   )
@@ -102,13 +107,15 @@ function HomeScreen(props) {
   const { banners } = carousel[0]
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView>
         <View style={{ marginTop: 16 }}>
           <HomeCarousel items={banners} />
         </View>
         <View style={{ marginTop: 24, padding: 16 }}>
-          <Text style={{ fontSize: 24 }}>माता पिता के लिए</Text>
+          <Text style={{ fontSize: 24, color: colors.text }}>
+            माता पिता के लिए
+          </Text>
           <View style={{ flex: 1, flexDirection: 'row', marginTop: 8 }}>
             <TouchableScale
               tension={250}
@@ -117,7 +124,8 @@ function HomeScreen(props) {
               style={{
                 marginRight: 8,
                 ...styles.sectionCard,
-                borderColor: '#118785',
+                borderColor: colors.border,
+                backgroundColor: colors.card,
               }}
             >
               <Icon
@@ -137,7 +145,8 @@ function HomeScreen(props) {
               style={{
                 marginLeft: 8,
                 ...styles.sectionCard,
-                borderColor: '#FCBC6E',
+                borderColor: colors.border,
+                backgroundColor: colors.card,
               }}
             >
               <Icon
@@ -167,6 +176,7 @@ function HomeScreen(props) {
             <Text
               style={{
                 fontSize: 24,
+                color: colors.text,
               }}
             >
               बच्चों के पढ़ाई के एपस्
@@ -177,7 +187,7 @@ function HomeScreen(props) {
               activeScale={0.98}
               friction={20}
             >
-              <Text style={{ marginTop: 8 }}>See All</Text>
+              <Text style={{ marginTop: 8, color: colors.text }}>See All</Text>
             </TouchableScale>
           </View>
           <FlatList
@@ -200,15 +210,6 @@ function HomeScreen(props) {
       </ScrollView>
     </SafeAreaView>
   )
-}
-
-HomeScreen.navigationOptions = {
-  title: (
-    <Image
-      source={require('../../../assets/logo.png')}
-      style={{ height: 36, width: 36 }}
-    />
-  ),
 }
 
 export default HomeScreen
@@ -237,7 +238,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 24,
-    backgroundColor: '#fff',
   },
   footer: {
     height: 80,

@@ -1,66 +1,91 @@
 import React from 'react'
-import { createBottomTabNavigator } from 'react-navigation-tabs'
+// import { createBottomTabNavigator } from 'react-navigation-tabs'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Text, Icon } from 'react-native-elements'
 import { StyleSheet } from 'react-native'
+import { useColorScheme } from 'react-native-appearance'
 
-import Home from './Home'
-import Apps from './Apps'
-import Videos from './Videos'
+import HomeStack from './Home'
+import AppStack from './Apps'
+import VideoStack from './Videos'
 import Quiz from './Quiz'
 import Profile from './Profile'
+import { useTheme } from '@react-navigation/native'
 
 import { BOTTOM_PANEL_ITEMS } from '../resources/constants'
 
-const Navigator = createBottomTabNavigator(
+const PANEL_ITEMS = [
   {
-    Home,
-    Apps,
-    Videos,
-    Quiz,
-    Profile,
+    name: 'Home',
+    component: HomeStack,
+    label: 'होम',
+    icon: 'home',
   },
   {
-    defaultNavigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state
-        const iconName = BOTTOM_PANEL_ITEMS[`${routeName}`]['icon']
-        const label = BOTTOM_PANEL_ITEMS[`${routeName}`]['label']
-        return (
-          <Icon type="simple-line-icon" name={iconName} color={tintColor} />
-        )
-      },
-      tabBarLabel: ({ focused, tintColor }) => {
-        const { routeName } = navigation.state
-        const label = BOTTOM_PANEL_ITEMS[`${routeName}`]['label']
-        return (
-          <Text
-            style={{
-              color: tintColor,
-              ...styles.tabLabel,
-            }}
-          >
-            {label}
-          </Text>
-        )
-      },
-    }),
-    tabBarOptions: {
-      activeTintColor: '#118785',
-      inactiveTintColor: '#a3a3a3',
-      style: {
-        paddingTop: 4,
-        height: 60,
-        borderTopWidth: 1,
-        borderTopColor: '#FCBC6E',
-      },
-    },
-  }
-)
+    name: 'Apps',
+    component: AppStack,
+    label: 'एपस्',
+    icon: 'screen-tablet',
+  },
+  {
+    name: 'Videos',
+    component: VideoStack,
+    label: 'वीडियो',
+    icon: 'film',
+  },
+  {
+    name: 'Quiz',
+    component: Quiz,
+    label: 'टॉप व्किज़',
+    icon: 'bulb',
+  },
+  {
+    name: 'Profile',
+    component: Profile,
+    label: 'प्रोफाइल',
+    icon: 'user',
+  },
+]
+
+const Tab = createBottomTabNavigator()
+
+function Navigator(props) {
+  const scheme = useColorScheme()
+  const { colors } = useTheme()
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: scheme === 'dark' ? '#FCBC6E' : '#118785',
+        labelPosition: 'below-icon',
+        style: {
+          height: 96,
+          borderTopColor: colors.border,
+          borderTopWidth: 1,
+        },
+        tabStyle: {
+          justifyContent: 'center',
+        },
+      }}
+    >
+      {PANEL_ITEMS.map(item => (
+        <Tab.Screen
+          name={item.name}
+          component={item.component}
+          options={{
+            tabBarLabel: item.label,
+            tabBarIcon: ({ color, size }) => (
+              <Icon
+                type="simple-line-icon"
+                name={item.icon}
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+        />
+      ))}
+    </Tab.Navigator>
+  )
+}
 
 export default Navigator
-
-const styles = StyleSheet.create({
-  tabLabel: {
-    fontWeight: 'bold',
-  },
-})

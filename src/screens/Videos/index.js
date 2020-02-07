@@ -1,7 +1,15 @@
-import { createStackNavigator } from 'react-navigation-stack'
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
 import VideosScreen from './VideosScreen'
 
-export default createStackNavigator(
-  { Videos: VideosScreen },
-  { headerMode: 'none' }
-)
+const Stack = createStackNavigator()
+
+function VideoStack(props) {
+  return (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="Videos" component={VideosScreen} />
+    </Stack.Navigator>
+  )
+}
+
+export default VideoStack

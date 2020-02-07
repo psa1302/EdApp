@@ -15,6 +15,10 @@ import TouchableScale from 'react-native-touchable-scale'
 import Loader from '../../components/Loader'
 import { useGetApps } from '../../hooks/dataSource'
 import YouTube from 'react-native-youtube'
+import { useTheme } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
+
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
 const SAMPLE_APPS = [
@@ -59,6 +63,8 @@ const SAMPLE_APPS = [
 const APPS_LIMIT = 10
 
 function Item({ title, subtitle, thumbnail, navigate, id }) {
+  const { colors } = useTheme()
+
   return (
     <TouchableScale
       onPress={() => navigate('Apps', { id })}
@@ -78,6 +84,8 @@ function Item({ title, subtitle, thumbnail, navigate, id }) {
             width: 60,
             height: 60,
             borderRadius: 8,
+            borderWidth: 1,
+            borderColor: colors.border,
           }}
           source={{
             uri: thumbnail,
@@ -85,8 +93,8 @@ function Item({ title, subtitle, thumbnail, navigate, id }) {
         />
       </View>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 16 }}>{title}</Text>
-        <Text numberOfLines={1} style={{ color: '#696969' }}>
+        <Text style={{ fontSize: 16, color: colors.text }}>{title}</Text>
+        <Text numberOfLines={1} style={{ color: colors.text }}>
           CSF-Top Parent
         </Text>
       </View>
@@ -95,6 +103,9 @@ function Item({ title, subtitle, thumbnail, navigate, id }) {
 }
 
 function AppsScreen(props) {
+  const route = useRoute()
+  const navigation = useNavigation()
+  const { colors } = useTheme()
   const { loading, error, data, fetchMore, refetch } = useGetApps({
     limit: APPS_LIMIT,
     offset: 0,
@@ -103,7 +114,7 @@ function AppsScreen(props) {
   if (loading) return <Loader />
   if (error) return <Text>error...</Text>
 
-  const appId = props.navigation.getParam('id')
+  const appId = route.params?.id
 
   const { apps } = data
 
@@ -115,7 +126,9 @@ function AppsScreen(props) {
   const { name, description, youtubeUrl, url, thumbnail } = bannerApp
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{ ...styles.container, backgroundColor: colors.background }}
+    >
       <YouTube
         videoId={youtubeUrl.split('v=')[1]} // The YouTube video ID
         // play // control playback of video with true/false
@@ -145,7 +158,13 @@ function AppsScreen(props) {
               marginTop: 16,
             }}
           >
-            <Text style={{ fontSize: 20, width: screenWidth / 1.5 }}>
+            <Text
+              style={{
+                fontSize: 20,
+                width: screenWidth / 1.5,
+                color: colors.text,
+              }}
+            >
               {name}
             </Text>
             <Icon
@@ -155,10 +174,10 @@ function AppsScreen(props) {
               size={26}
             />
           </View>
-          <Text style={{ color: '#a3a3a3' }}>{description}</Text>
+          <Text style={{ color: colors.text }}>{description}</Text>
         </View>
       </View>
-      <Divider style={styles.divider} />
+      <Divider style={{ ...styles.divider, backgroundColor: colors.border }} />
       <FlatList
         style={{
           padding: 16,
@@ -170,7 +189,7 @@ function AppsScreen(props) {
               title={item.name}
               subtitle={item.name}
               thumbnail={item.thumbnail}
-              navigate={props.navigation.navigate}
+              navigate={navigation.navigate}
               id={item.id}
             />
           </>
@@ -186,10 +205,8 @@ export default AppsScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   divider: {
-    backgroundColor: '#eaeaea',
     marginTop: 8,
     marginBottom: 8,
   },

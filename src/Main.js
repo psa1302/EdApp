@@ -10,7 +10,6 @@ const AppStack = createStackNavigator(
   { Home: Navigator },
   { headerMode: 'none' }
 )
-// const AuthStack = createStackNavigator({ SignIn: SignInScreen });
 
 const Main = createAppContainer(
   createSwitchNavigator(

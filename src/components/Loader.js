@@ -1,10 +1,12 @@
 import React from 'react'
+import { useTheme } from '@react-navigation/native'
 
 import { View, StyleSheet, ActivityIndicator } from 'react-native'
 
 function Loader(props) {
+  const { colors } = useTheme()
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, backgroundColor: colors.background }}>
       <ActivityIndicator />
     </View>
   )
@@ -17,6 +19,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
 })
