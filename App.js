@@ -22,7 +22,6 @@ export default function App() {
       <AppearanceProvider>
         <NavigationContainer
           theme={scheme === 'dark' ? DarkTheme : DefaultTheme}
-          // theme={DarkTheme}
         >
           <Main />
         </NavigationContainer>

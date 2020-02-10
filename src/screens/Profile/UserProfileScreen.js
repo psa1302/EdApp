@@ -104,7 +104,7 @@ function UserProfileScreen(props) {
           <Text style={{ ...styles.contact, color: colors.text }}>{email}</Text>
           {/* <Text style={styles.contact}>9988098592</Text> */}
           <Button
-            color="#118785"
+            color={colors.primary}
             title="संपादित करें"
             onPress={() => props.navigation.navigate('Edit')}
           />
@@ -113,8 +113,9 @@ function UserProfileScreen(props) {
           <Text
             style={{
               fontSize: 24,
-              fontWeight: 'bold',
+              // fontWeight: 'bold',
               marginHorizontal: 16,
+              marginVertical: 16,
               color: colors.text,
             }}
           >
@@ -145,8 +146,9 @@ function UserProfileScreen(props) {
           <Text
             style={{
               fontSize: 24,
-              fontWeight: 'bold',
+              // fontWeight: 'bold',
               marginHorizontal: 16,
+              marginVertical: 16,
               color: colors.text,
             }}
           >

@@ -125,7 +125,7 @@ function HomeScreen(props) {
         <View style={{ marginTop: 16 }}>
           <HomeCarousel items={banners} />
         </View>
-        <View style={{ marginTop: 24, padding: 16 }}>
+        <View style={{ padding: 16 }}>
           <Text style={{ fontSize: 24, color: colors.text }}>
             माता पिता के लिए
           </Text>
@@ -200,7 +200,9 @@ function HomeScreen(props) {
               activeScale={0.98}
               friction={20}
             >
-              <Text style={{ marginTop: 8, color: colors.text }}>See All</Text>
+              <Text style={{ marginTop: 8, color: colors.primary }}>
+                See All
+              </Text>
             </TouchableScale>
           </View>
           <FlatList

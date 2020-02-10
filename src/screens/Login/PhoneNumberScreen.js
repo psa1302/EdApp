@@ -12,10 +12,13 @@ import {
 } from 'react-native'
 import PhoneInput from 'react-native-phone-input'
 import { usePhoneLogin } from '../../hooks/common'
+import { useTheme } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
 function PhoneNumberScreen(props) {
+  const { colors } = useTheme()
   const [countryCode, setCountryCode] = useState('in')
   const [confirmationResult, setConfirmation] = useState(null)
   const [getOtp, confirmOtp, { loading }] = usePhoneLogin()
@@ -29,7 +32,9 @@ function PhoneNumberScreen(props) {
   }, [])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{ ...styles.container, backgroundColor: colors.background }}
+    >
       <View style={styles.logoContainer}>
         <Image
           source={require('../../../assets/logo.png')}
@@ -39,13 +44,13 @@ function PhoneNumberScreen(props) {
       </View>
       <View style={styles.phoneContainer}>
         <PhoneInput
-          style={styles.phoneInput}
+          style={{ ...styles.phoneInput, borderBottomColor: colors.text }}
           ref={phoneRef}
           onSelectCountry={code => setCountryCode(code)}
         />
         <Button
           disabled={loading}
-          color="#00444a"
+          color={colors.primary}
           title="Send OTP"
           onPress={async () => {
             if (phoneRef.current.isValidNumber()) {
@@ -71,7 +76,6 @@ export default PhoneNumberScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   logoContainer: {
     flex: 1,
@@ -86,7 +90,6 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.5,
     height: 40,
     textAlign: 'center',
-    borderBottomColor: '#00444a',
     borderBottomWidth: 1,
     fontSize: 24,
     marginBottom: 16,

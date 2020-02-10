@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import Carousel, { ParallaxImage } from 'react-native-snap-carousel'
+import React, { useRef, useState } from 'react'
+import Carousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel'
 import {
   Image,
   View,
@@ -8,45 +8,30 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native'
-
-export const ENTRIES1 = [
-  {
-    title: 'Beautiful and dramatic Antelope Canyon',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    illustration: 'https://i.imgur.com/UYiroysl.jpg',
-  },
-  {
-    title: 'Earlier this morning, NYC',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://i.imgur.com/UPrs1EWl.jpg',
-  },
-  {
-    title: 'White Pocket Sunset',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat ',
-    illustration: 'https://i.imgur.com/MABUbpDl.jpg',
-  },
-  {
-    title: 'Acrocorinth, Greece',
-    subtitle: 'Lorem ipsum dolor sit amet et nuncat mergitur',
-    illustration: 'https://i.imgur.com/KZsmUi2l.jpg',
-  },
-  {
-    title: 'The lone tree, majestic landscape of New Zealand',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://i.imgur.com/2nCt3Sbl.jpg',
-  },
-  {
-    title: 'Middle Earth, Germany',
-    subtitle: 'Lorem ipsum dolor sit amet',
-    illustration: 'https://i.imgur.com/lceHsT6l.jpg',
-  },
-]
+import { useTheme } from '@react-navigation/native'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
+
+function CarouselPagination(props) {
+  const { activeIndex, count } = props
+  const { colors } = useTheme()
+
+  return (
+    <Pagination
+      dotsLength={count}
+      activeDotIndex={activeIndex}
+      dotColor={colors.text}
+      inactiveDotColor={colors.text}
+      inactiveDotOpacity={0.4}
+      inactiveDotScale={0.6}
+    />
+  )
+}
 
 function HomeCarousel(props) {
   const { items } = props
   const carouselRef = useRef(null)
+  const [activeItem, setItemIndex] = useState(0)
 
   const goForward = () => {
     carouselRef.current.snapToNext()
@@ -78,7 +63,9 @@ function HomeCarousel(props) {
         data={items}
         renderItem={_renderItem}
         hasParallaxImages={true}
+        onSnapToItem={index => setItemIndex(index)}
       />
+      <CarouselPagination activeIndex={activeItem} count={items.length} />
     </View>
   )
 }
