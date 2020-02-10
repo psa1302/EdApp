@@ -18,6 +18,7 @@ import YouTube from 'react-native-youtube'
 import { useTheme } from '@react-navigation/native'
 import { useNavigation } from '@react-navigation/native'
 import { useRoute } from '@react-navigation/native'
+import VideoCarousel from '../../components/VideoCarousel'
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window')
 
@@ -199,24 +200,20 @@ function VideosScreen(props) {
         </View>
       </View>
       <Divider style={{ ...styles.divider, backgroundColor: colors.border }} />
-      <FlatList
-        style={{
-          padding: 16,
-        }}
-        data={getRows(videos)}
-        renderItem={({ item, index }) => (
-          <>
-            <Item
-              title={item.name}
-              subtitle={item.name}
-              thumbnail={item.thumbnail}
-              navigate={navigation.navigate}
-              id={item.id}
-            />
-          </>
-        )}
-        keyExtractor={item => item.id}
-      />
+      <ScrollView>
+        <Text
+          style={{ color: colors.text, fontSize: 18, marginHorizontal: 16 }}
+        >
+          Top Rated
+        </Text>
+        <VideoCarousel items={getRows(videos)} />
+        <Text
+          style={{ color: colors.text, fontSize: 18, marginHorizontal: 16 }}
+        >
+          Recently Added
+        </Text>
+        <VideoCarousel items={getRows(videos)} />
+      </ScrollView>
     </SafeAreaView>
   )
 }
