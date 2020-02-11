@@ -9,7 +9,7 @@ const Stack = createStackNavigator()
 
 function ProfileStack(props) {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode="none">
       <Stack.Screen name="Profile" component={UserProfileScreen} />
       <Stack.Screen name="Terms" component={TermsScreen} />
       <Stack.Screen name="Privacy" component={PrivacyScreen} />

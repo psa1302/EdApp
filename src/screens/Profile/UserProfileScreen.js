@@ -4,6 +4,7 @@ import { Icon, Text, Avatar, ListItem } from 'react-native-elements'
 import TouchableScale from 'react-native-touchable-scale'
 import { firebase } from '@react-native-firebase/auth'
 import { useTheme } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import { AppearanceProvider, useColorScheme } from 'react-native-appearance'
 import {
   Alert,
@@ -59,6 +60,7 @@ const legal = [
 
 function UserProfileScreen(props) {
   const { colors } = useTheme()
+  const route = useRoute()
   const scheme = useColorScheme()
   const [user, setUser] = useState(null)
   useEffect(() => {
@@ -89,6 +91,17 @@ function UserProfileScreen(props) {
     <SafeAreaView
       style={{ ...styles.container, backgroundColor: colors.background }}
     >
+      <View style={{ padding: 24 }}>
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: 36,
+            fontWeight: 'bold',
+          }}
+        >
+          {route.name}
+        </Text>
+      </View>
       <ScrollView>
         <View style={styles.details}>
           <Avatar

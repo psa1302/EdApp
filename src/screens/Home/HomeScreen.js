@@ -110,18 +110,18 @@ function HomeScreen(props) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+      <View style={{ padding: 24 }}>
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: 36,
+            fontWeight: 'bold',
+          }}
+        >
+          {route.name}
+        </Text>
+      </View>
       <ScrollView>
-        <View style={{ padding: 24 }}>
-          <Text
-            style={{
-              color: colors.text,
-              fontSize: 36,
-              fontWeight: 'bold',
-            }}
-          >
-            {route.name}
-          </Text>
-        </View>
         <View style={{ marginTop: 16 }}>
           <HomeCarousel items={banners} />
         </View>

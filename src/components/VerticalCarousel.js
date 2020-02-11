@@ -30,7 +30,7 @@ function CarouselItem(props) {
       <Image
         style={{
           // flex: 1,
-          height: screenHeight - 180,
+          height: screenHeight - 274,
           width: screenWidth - 32,
           borderRadius: 24,
         }}
@@ -108,7 +108,7 @@ function VerticalCarousel(props) {
         sliderWidth={screenWidth}
         sliderHeight={screenWidth}
         itemWidth={screenWidth}
-        itemHeight={screenHeight - 148}
+        itemHeight={screenHeight - 240}
         data={items}
         renderItem={({ item, index }) => (
           <CarouselItem item={item} index={index} />

@@ -9,7 +9,7 @@ const Stack = createStackNavigator()
 function HomeStack(props) {
   const { colors } = useTheme()
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode="none">
       <Stack.Screen
         name="Home"
         component={HomeScreen}

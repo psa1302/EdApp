@@ -58,7 +58,7 @@ function Navigator(props) {
         activeTintColor: scheme === 'dark' ? '#FCBC6E' : '#118785',
         labelPosition: 'below-icon',
         style: {
-          height: 96,
+          // height: 96,
           borderTopColor: colors.border,
           borderTopWidth: 1,
         },
@@ -78,7 +78,7 @@ function Navigator(props) {
                 type="simple-line-icon"
                 name={item.icon}
                 color={color}
-                size={size}
+                size={18}
               />
             ),
           }}

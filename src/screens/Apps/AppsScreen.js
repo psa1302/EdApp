@@ -131,6 +131,17 @@ function AppsScreen(props) {
     <SafeAreaView
       style={{ ...styles.container, backgroundColor: colors.background }}
     >
+      <View style={{ padding: 24 }}>
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: 36,
+            fontWeight: 'bold',
+          }}
+        >
+          {route.name}
+        </Text>
+      </View>
       <VerticalCarousel items={apps} />
     </SafeAreaView>
   )

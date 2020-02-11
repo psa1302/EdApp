@@ -160,6 +160,17 @@ function VideosScreen(props) {
     <SafeAreaView
       style={{ ...styles.container, backgroundColor: colors.background }}
     >
+      <View style={{ padding: 24 }}>
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: 36,
+            fontWeight: 'bold',
+          }}
+        >
+          {route.name}
+        </Text>
+      </View>
       <YouTube
         videoId={currentVideoId} // The YouTube video ID
         // play // control playback of video with true/false
