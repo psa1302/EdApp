@@ -109,7 +109,13 @@ function HomeScreen(props) {
   const { banners } = carousel[0]
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colors.background,
+        marginBottom: 100,
+      }}
+    >
       <View style={{ padding: 24 }}>
         <Text
           style={{

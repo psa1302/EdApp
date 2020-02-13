@@ -1,8 +1,7 @@
 import React from 'react'
-// import { createBottomTabNavigator } from 'react-navigation-tabs'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Text, Icon } from 'react-native-elements'
-import { StyleSheet } from 'react-native'
+import { Icon } from 'react-native-elements'
+import { StyleSheet, View, Text } from 'react-native'
 import { useColorScheme } from 'react-native-appearance'
 
 import HomeStack from './Home'
@@ -11,6 +10,9 @@ import VideoStack from './Videos'
 import Quiz from './Quiz'
 import Profile from './Profile'
 import { useTheme } from '@react-navigation/native'
+import { BlurView, VibrancyView } from '@react-native-community/blur'
+
+import BottomTabBar from '../components/BottomTabBar'
 
 import { BOTTOM_PANEL_ITEMS } from '../resources/constants'
 
@@ -54,35 +56,16 @@ function Navigator(props) {
   const { colors } = useTheme()
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: scheme === 'dark' ? '#FCBC6E' : '#118785',
-        labelPosition: 'below-icon',
-        style: {
-          // height: 96,
-          borderTopColor: colors.border,
-          borderTopWidth: 1,
-        },
-        tabStyle: {
-          justifyContent: 'center',
-        },
-      }}
+      tabBar={router => (
+        <BottomTabBar
+          route={props.navigation.state.routeName}
+          navigateTo={routeName => router.navigation.navigate(routeName)}
+          routeIndex={router.state.index}
+        />
+      )}
     >
       {PANEL_ITEMS.map(item => (
-        <Tab.Screen
-          name={item.name}
-          component={item.component}
-          options={{
-            tabBarLabel: item.label,
-            tabBarIcon: ({ color, size }) => (
-              <Icon
-                type="simple-line-icon"
-                name={item.icon}
-                color={color}
-                size={18}
-              />
-            ),
-          }}
-        />
+        <Tab.Screen name={item.name} component={item.component} />
       ))}
     </Tab.Navigator>
   )
