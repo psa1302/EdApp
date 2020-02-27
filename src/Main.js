@@ -10,7 +10,7 @@ const AppStack = createStackNavigator(
   { Home: Navigator },
   { headerMode: 'none' }
 )
-
+// this is to test magit
 const Main = createAppContainer(
   createSwitchNavigator(
     {
